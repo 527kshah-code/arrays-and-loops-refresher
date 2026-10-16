@@ -1,5 +1,5 @@
 // Demo data array we will use in all examples
-const foods = ['Pizza', 'Tacos', 'Ice Cream', 'Burgers', 'Pasta']
+const foods = ['Pizza', 'Tacos', 'Ice Cream', 'Burgers', 'Pasta', 'Cake']
 
 // helper function: will display whatever HTML/text we pass into the #out div
 function render (html) {
@@ -12,7 +12,12 @@ function render (html) {
      - Output all foods into the #out div (as <p> tags or list items)
 */
 function listFoods () {
-  // code goes here
+  let output = "";
+    for (const food of foods) {
+      output += `<p> ${food} </p>`
+    };
+
+  render(output);
 }
 
 /* 
@@ -21,7 +26,13 @@ function listFoods () {
      - Output foods as an ordered list (<ol><li>...</li></ol>)
 */
 function numberedFoods () {
-  // code goes here
+  let output = `<ol class = "list-group list-group-numbered">`;
+    for (let i=0; i< foods.length; i++) {
+      output += `<li class = "list-group-item"> ${foods[i]} </li>`
+    };
+
+  output += `</ol>`;
+  render(output);
 }
 
 /* 
@@ -32,7 +43,21 @@ function numberedFoods () {
      - If no matches, display a "not found" message
 */
 function filterFoods () {
-  // code goes here
+  const letter = prompt ('Enter a letter to filter by:');
+    if(!letter){
+      render(`<p class = "text-muted"> Please enter a letter !!!!</p>`);
+      return;
+    }
+
+    const lower = letter.toLowerCase();
+    const matches = foods.filter(f=> f.toLowerCase().startsWith(lower));
+    
+    if(matches.length === 0){
+      render(`<p class="m-0">No foods start with '<strong>${letter}</strong>'</p>`);
+      return
+    }
+    const list = matches.map(item => `<li class = "list-group-item"> ${item} </li>`).join('');
+    render(`<ul class = "list-group"> ${list}</ul>`);
 }
 
 /* 
@@ -42,7 +67,18 @@ function filterFoods () {
      - Cards should be placed in a centered row
 */
 function forEachFoods () {
-  // code goes here
+  let output = `<div class="row g-3 justify-content-center">`;
+  foods.forEach(food => {
+    output += `<div class = "col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
+                  <div class = "card shadow-sm w-100">
+                    <div class = "card-body text-center">
+                      <h5 class= "card-title mb-0">${food}</h5>
+                    </div>
+                  </div>
+                </div>`
+  });
+  output += `</div>`;
+  render(output);
 }
 
 // ---- Event listeners (buttons) ----
